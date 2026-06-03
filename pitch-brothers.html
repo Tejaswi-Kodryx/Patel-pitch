@@ -1,0 +1,2792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Patel Brothers – WhatsApp‑First Retail Business Suite</title>
+<meta name="description" content="Patel Brothers – A premium WhatsApp‑first retail business suite built on WapFlow." />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* ======================
+     CSS Variables & Palette
+  ======================= */
+  :root {
+    --bg-deep-navy: #08121e;
+    --bg-card: #132237;
+    --bg-card-hover: #1b2d47;
+    --accent-teal: #00B894;
+    --whatsapp-green: #25D366;
+    --text-primary: #FFFFFF;
+    --text-muted: #A0AEC0;
+    --glow-teal: rgba(0, 184, 148, 0.15);
+    --glow-whatsapp: rgba(37, 211, 102, 0.2);
+    --border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Global Reset & Base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none; /* Hide default cursor for custom cursor */
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-deep-navy);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a, button, select, input, [role="button"] {
+    cursor: none; /* Keep cursor custom */
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-deep-navy);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-card);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-teal);
+  }
+
+  /* Progress Bar */
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-teal), var(--whatsapp-green));
+    width: 0%;
+    z-index: 10000;
+  }
+
+  /* Custom Cursor trailing dot */
+  #custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-teal);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+  }
+  #custom-cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--whatsapp-green);
+    background-color: rgba(37, 211, 102, 0.03);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.08s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Premium Glass Card Style */
+  .glass-card {
+    background: rgba(19, 34, 55, 0.65);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                border-color 0.4s;
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px var(--glow-teal);
+    border-color: rgba(0, 184, 148, 0.3);
+  }
+
+  /* ======================
+     Hero Section
+  ======================= */
+  #hero {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+  }
+  
+  /* Animated Pulse Background */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 184, 148, 0.15) 0%, rgba(8, 18, 30, 1) 70%);
+    z-index: -1;
+  }
+  .hero-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+    opacity: 0.6;
+  }
+
+  /* Hero WhatsApp Floating Icon */
+  .hero-wa-float {
+    width: 72px;
+    height: 72px;
+    background: var(--whatsapp-green);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px var(--glow-whatsapp);
+    animation: floatAnim 4s ease-in-out infinite;
+  }
+  .hero-wa-float svg {
+    width: 38px;
+    height: 38px;
+    fill: white;
+  }
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(8deg); }
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-teal);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  #hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #FFFFFF 30%, #00B894 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    max-width: 800px;
+  }
+
+  #hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+  }
+  .cta-primary {
+    background: linear-gradient(135deg, var(--accent-teal), #00a383);
+    color: var(--bg-deep-navy);
+    padding: 0.9rem 2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 184, 148, 0.3);
+  }
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 184, 148, 0.5);
+  }
+  .cta-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    padding: 0.9rem 2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+  .cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-muted);
+  }
+
+  /* Animated Scroll Indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    width: 26px;
+    height: 44px;
+    border: 2px solid var(--text-muted);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+  }
+  .scroll-indicator-dot {
+    width: 4px;
+    height: 8px;
+    background-color: var(--accent-teal);
+    border-radius: 2px;
+    animation: scrollDotAnim 2s infinite;
+  }
+  @keyframes scrollDotAnim {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(14px); opacity: 0.3; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ======================
+     Problem Bar Ticker
+  ======================= */
+  #problem-bar {
+    background: rgba(19, 34, 55, 0.4);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+  .ticker-wrap {
+    display: flex;
+    width: 100%;
+  }
+  .ticker {
+    display: inline-flex;
+    animation: tickerMove 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .ticker-item svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.75rem;
+    fill: var(--accent-teal);
+  }
+  @keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ======================
+     Features Section
+  ======================= */
+  #features {
+    padding: 8rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .section-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Tabs Navigation */
+  .tabs-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+  .tab-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  .tab-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-muted);
+    transition: fill 0.3s ease, transform 0.3s ease;
+  }
+  .tab-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+  }
+  .tab-btn:hover svg {
+    fill: var(--accent-teal);
+    transform: scale(1.1);
+  }
+  .tab-btn.active {
+    background: rgba(0, 184, 148, 0.1);
+    border-color: var(--accent-teal);
+    color: var(--text-primary);
+  }
+  .tab-btn.active svg {
+    fill: var(--accent-teal);
+  }
+
+  /* Panels container */
+  .panels-container {
+    position: relative;
+    height: 650px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .feature-panel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3rem;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(100px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .feature-panel.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
+    position: relative;
+    z-index: 10;
+  }
+  .feature-panel.exit-left {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+
+  .panel-text h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+  }
+  .panel-text p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  /* Clean Bullets list inside panels */
+  .feature-bullets {
+    list-style: none;
+  }
+  .feature-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+  .feature-bullets li svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent-teal);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* Mockups Styling */
+  .panel-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+  }
+
+  /* 1. POS Mockup (WhatsApp Chat UI in Phone) */
+  .phone-frame {
+    width: 260px;
+    height: 480px;
+    background: #0b141a; /* WhatsApp dark mode default solid dark color */
+    border: 8px solid #2d3748;
+    border-radius: 36px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-header {
+    background: #075e54;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .phone-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #128c7e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+  .phone-user-info {
+    flex-grow: 1;
+  }
+  .phone-username {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+  }
+  .phone-status {
+    font-size: 0.6rem;
+    color: #e0f2f1;
+  }
+  .phone-messages {
+    flex-grow: 1;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow-y: auto;
+  }
+  .msg-bubble {
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    max-width: 80%;
+    line-height: 1.4;
+    position: relative;
+  }
+  .msg-bubble.received {
+    background: #1f2c34;
+    color: white;
+    align-self: flex-start;
+  }
+  .msg-bubble.sent {
+    background: #005c4b;
+    color: #e9edef;
+    align-self: flex-end;
+  }
+  .msg-bubble.bill-bubble {
+    background: #1f2c34;
+    color: white;
+    align-self: flex-start;
+    border-left: 3px solid var(--accent-teal);
+    width: 85%;
+  }
+  .bill-header {
+    font-weight: bold;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+    color: var(--accent-teal);
+  }
+  .bill-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    margin-bottom: 0.15rem;
+  }
+  .bill-total {
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-top: 0.25rem;
+    margin-top: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+  .pos-input-area {
+    background: #1f2c34;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .pos-input-field {
+    background: #2a3942;
+    border-radius: 20px;
+    flex-grow: 1;
+    height: 28px;
+    font-size: 0.7rem;
+    padding: 0 0.75rem;
+    display: flex;
+    align-items: center;
+    color: #8696a0;
+  }
+  .pos-send-btn {
+    width: 28px;
+    height: 28px;
+    background: var(--whatsapp-green);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pos-send-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: white;
+  }
+
+  /* 2. QR Code Mockup */
+  .qr-scanner-mock {
+    width: 280px;
+    height: 280px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  .qr-code-graphic {
+    width: 160px;
+    height: 160px;
+    background-color: white;
+    padding: 8px;
+    border-radius: 12px;
+    position: relative;
+  }
+  .qr-laser {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--whatsapp-green);
+    box-shadow: 0 0 15px var(--whatsapp-green);
+    animation: laserScanAnim 3s ease-in-out infinite;
+  }
+  @keyframes laserScanAnim {
+    0%, 100% { top: 10%; }
+    50% { top: 90%; }
+  }
+
+  /* 3. Inventory Mockup */
+  .inventory-card {
+    width: 320px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  .inventory-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .inventory-stats-summary {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .inv-item-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .inv-item-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+  }
+  .inv-bar-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .inv-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent-teal);
+  }
+  .inv-bar-fill.warning {
+    background: #e1b12c;
+  }
+  .inv-bar-fill.danger {
+    background: #e84118;
+  }
+  .inv-badge-warning {
+    background: rgba(232, 65, 24, 0.15);
+    color: #ff7675;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 700;
+    animation: invWarningPulse 1.2s infinite alternate;
+  }
+  @keyframes invWarningPulse {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+  }
+
+  /* 4. Omnichannel Mockup */
+  .omni-publisher {
+    width: 320px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+  }
+  .omni-central-button {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-teal), var(--whatsapp-green));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem auto;
+    font-weight: 700;
+    font-size: 0.8rem;
+    box-shadow: 0 8px 24px rgba(0, 184, 148, 0.4);
+    z-index: 2;
+    position: relative;
+  }
+  .omni-signals {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .omni-icon-node {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    background: var(--bg-card-hover);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    z-index: 3;
+    transition: all 0.3s ease;
+  }
+  .omni-icon-node svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-muted);
+  }
+  .omni-icon-node.active svg {
+    fill: var(--accent-teal);
+  }
+  /* Stagger placement of omnichannel nodes around the button */
+  .node-wa { top: 15%; left: 15%; }
+  .node-ig { top: 15%; right: 15%; }
+  .node-sms { bottom: 15%; left: 15%; }
+  .node-mail { bottom: 15%; right: 15%; }
+  .node-voice { top: 40%; right: 5%; }
+
+  /* Connecting signal lines radiating out */
+  .omni-signal-wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 76px;
+    height: 76px;
+    border: 1px solid rgba(0, 184, 148, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: omniWaveAnim 2.5s infinite linear;
+    opacity: 0;
+  }
+  @keyframes omniWaveAnim {
+    0% { width: 76px; height: 76px; opacity: 1; }
+    100% { width: 300px; height: 300px; opacity: 0; }
+  }
+
+  /* 5. AI Analytics Panel styling */
+  .ai-analytics-card {
+    width: 320px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+  }
+  .ai-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 120px;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.25rem;
+  }
+  .ai-chart-bar {
+    width: 24px;
+    background: linear-gradient(to top, var(--bg-deep-navy), var(--accent-teal));
+    border-radius: 4px 4px 0 0;
+    height: 0%;
+    transition: height 1s ease-out;
+  }
+  .ai-recommendation-box {
+    background: rgba(0, 184, 148, 0.08);
+    border: 1px solid rgba(0, 184, 148, 0.2);
+    border-radius: 10px;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-family: monospace;
+    min-height: 70px;
+    color: var(--accent-teal);
+  }
+  .ai-calendar-trends {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* Festival Planner Styles */
+  .ai-festival-planner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .festival-select {
+    width: 100%;
+    background: var(--bg-deep-navy);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    color: var(--text-primary);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .festival-select:focus {
+    border-color: var(--accent-teal);
+  }
+  
+  .festival-result-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+  }
+  
+  .fest-region-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  
+  .fest-region-val {
+    color: var(--accent-teal);
+    font-weight: 700;
+  }
+  
+  .fest-materials-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  
+  .fest-materials-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  
+  .fest-material-item {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .fest-material-qty {
+    color: var(--whatsapp-green);
+    font-weight: 700;
+  }
+
+  /* ======================
+     How It Works Section
+  ======================= */
+  #how-it-works {
+    padding: 8rem 2rem;
+    background: rgba(19, 34, 55, 0.2);
+  }
+  .steps-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1000px;
+    margin: 4rem auto 0 auto;
+    position: relative;
+  }
+  .step-card {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .step-icon-wrap {
+    width: 80px;
+    height: 80px;
+    background: var(--bg-card);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.5rem auto;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    transition: border-color 0.3s;
+  }
+  .step-card:hover .step-icon-wrap {
+    border-color: var(--accent-teal);
+  }
+  .step-icon-wrap svg {
+    width: 34px;
+    height: 34px;
+    fill: var(--accent-teal);
+  }
+  .step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .step-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Connecting Animated Dashed Line */
+  .connecting-line-svg {
+    position: absolute;
+    top: 40px;
+    left: 10%;
+    width: 80%;
+    height: 10px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .connecting-line-svg path {
+    stroke: var(--border-color);
+    stroke-width: 3;
+    stroke-dasharray: 8 8;
+    fill: none;
+    animation: dashAnim 15s linear infinite;
+  }
+  @keyframes dashAnim {
+    to { stroke-dashoffset: -100; stroke: var(--accent-teal); }
+  }
+
+  /* ======================
+     Omni-Channel Blaster Section
+  ======================= */
+  #omni-channel-blaster {
+    background: linear-gradient(180deg, var(--bg-deep-navy) 0%, rgba(19, 34, 55, 0.3) 100%);
+    padding: 8rem 2rem;
+    border-top: 1px solid var(--border-color);
+    position: relative;
+  }
+  
+  .omni-blaster-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .blaster-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    padding: 2.5rem;
+    margin-top: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (max-width: 992px) {
+    .blaster-dashboard {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .blaster-composer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .blaster-composer h3, .blaster-visualizer h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+
+  .template-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .template-selector label, .message-input-wrapper label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .template-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .temp-chip {
+    padding: 0.5rem 1rem;
+    background: var(--bg-deep-navy);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .temp-chip:hover, .temp-chip.active {
+    border-color: var(--accent-teal);
+    color: var(--text-primary);
+    background: rgba(0, 184, 148, 0.1);
+  }
+
+  .message-input-wrapper textarea {
+    width: 100%;
+    height: 120px;
+    background: var(--bg-deep-navy);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .message-input-wrapper textarea:focus {
+    border-color: var(--accent-teal);
+  }
+
+  #btn-broadcast {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1.1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent-teal), var(--whatsapp-green));
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    cursor: pointer;
+    border: none;
+    color: var(--bg-deep-navy);
+    transition: all 0.3s ease;
+  }
+
+  #btn-broadcast:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(37, 211, 102, 0.5);
+  }
+
+  #btn-broadcast .send-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--bg-deep-navy);
+    transition: transform 0.3s ease;
+  }
+
+  #btn-broadcast:hover .send-icon {
+    transform: translate(3px, -3px) scale(1.1);
+  }
+
+  /* Visualizer Columns & Cards */
+  .blaster-visualizer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-height: 400px;
+  }
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 576px) {
+    .channels-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .channel-card {
+    background: var(--bg-deep-navy);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .channel-card.sending {
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 15px rgba(0, 184, 148, 0.15);
+  }
+
+  .channel-card.success {
+    border-color: var(--whatsapp-green);
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
+  }
+
+  .channel-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .channel-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .channel-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .channel-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+
+  .wa-bg { background: #25D366; }
+  .sms-bg { background: #00B894; }
+  .insta-bg { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+  .voice-bg { background: #0984e3; }
+  .email-bg { background: #ea4335; }
+
+  .channel-info h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .chan-status {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e17055;
+    transition: background 0.3s;
+  }
+
+  .channel-card.sending .status-indicator {
+    background: #fdcb6e;
+    animation: blinkIndicator 1s infinite alternate;
+  }
+
+  .channel-card.success .status-indicator {
+    background: var(--whatsapp-green);
+  }
+
+  @keyframes blinkIndicator {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+  }
+
+  /* Channel Previews */
+  .channel-preview {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .preview-bubble {
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    display: inline-block;
+    max-width: 95%;
+  }
+
+  .preview-bubble.received {
+    background: var(--bg-card);
+    color: white;
+    align-self: flex-start;
+  }
+
+  /* WA style ticks */
+  .wa-ticks {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    margin-left: 0.25rem;
+  }
+
+  .channel-card.success .wa-ticks {
+    color: #34b7f1;
+  }
+
+  .preview-meta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+
+  /* Voice Waves animation */
+  .voice-wave-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+  }
+
+  .wave-bar {
+    width: 3px;
+    height: 6px;
+    background: #0984e3;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .channel-card.sending .wave-bar {
+    animation: soundWave 1.2s infinite ease-in-out;
+  }
+
+  .channel-card.sending .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+  .channel-card.sending .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+  .channel-card.sending .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+  .channel-card.sending .wave-bar:nth-child(5) { animation-delay: 0.6s; }
+
+  @keyframes soundWave {
+    0%, 100% { height: 6px; }
+    50% { height: 24px; }
+  }
+
+  .voice-transcript {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+  }
+
+  /* Visualizer Overlay (Broadcasting Status) */
+  .visualizer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(19, 34, 55, 0.97);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 20;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+  }
+
+  .visualizer-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .overlay-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 2rem;
+  }
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(0, 184, 148, 0.1);
+    border-top: 4px solid var(--accent-teal);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .overlay-content h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .stats-counter-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 1rem;
+  }
+
+  .stat-counter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sc-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-teal);
+  }
+
+  .sc-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* Success Sparkles/Confetti Container */
+  .broadcast-success-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .success-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.1);
+    border: 3px solid var(--whatsapp-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulseSuccess 2s infinite alternate;
+  }
+
+  .success-circle svg {
+    width: 44px;
+    height: 44px;
+    fill: var(--whatsapp-green);
+  }
+
+  @keyframes pulseSuccess {
+    from { transform: scale(1); box-shadow: 0 0 10px rgba(37, 211, 102, 0.2); }
+    to { transform: scale(1.08); box-shadow: 0 0 25px rgba(37, 211, 102, 0.4); }
+  }
+
+  .btn-reset {
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1.5rem;
+    border-radius: 20px;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-reset:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-muted);
+  }
+
+  /* Analytics Report Detailed Metrics Styles */
+  .broadcast-success-screen {
+    width: 100%;
+    max-width: 650px;
+    padding: 1rem;
+  }
+  .analytics-report-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+  .channel-metric-row {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .metric-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .m-channel-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .m-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .m-delivered-lbl {
+    color: var(--whatsapp-green);
+    font-size: 0.8rem;
+  }
+  .metric-segments-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+  }
+  .metric-segments-bar .segment {
+    height: 100%;
+    transition: width 1s ease-out;
+  }
+  .metric-legends {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+  .l-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.25rem;
+    vertical-align: middle;
+  }
+
+  /* ======================
+     Roadmap Timeline
+  ======================= */
+  #roadmap {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .timeline-wrapper {
+    position: relative;
+    margin-top: 4rem;
+    padding: 2rem 0;
+  }
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--bg-card);
+    transform: translateX(-50%);
+  }
+  .timeline-item {
+    width: 100%;
+    margin-bottom: 3.5rem;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .timeline-item:nth-child(even) {
+    justify-content: flex-end;
+  }
+  .timeline-content {
+    width: 45%;
+    padding: 2rem;
+    border-radius: 16px;
+    position: relative;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 2.2rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 4px solid var(--bg-deep-navy);
+    transform: translateX(-50%);
+    z-index: 10;
+    transition: all 0.3s;
+  }
+  .timeline-item.active .timeline-dot {
+    background: var(--accent-teal);
+    box-shadow: 0 0 12px var(--accent-teal);
+  }
+  .timeline-item.active .timeline-content {
+    border-color: rgba(0, 184, 148, 0.4);
+    box-shadow: 0 8px 30px var(--glow-teal);
+  }
+  .timeline-phase {
+    font-size: 0.8rem;
+    color: var(--accent-teal);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .timeline-content h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .timeline-content p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  /* ======================
+     Footer
+  ======================= */
+  footer {
+    border-top: 1px solid var(--border-color);
+    background: #060b13;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+  .footer-logo span {
+    color: var(--accent-teal);
+  }
+  .footer-tagline {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .footer-copyright {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ======================
+     Responsive Styles
+  ======================= */
+  @media (max-width: 992px) {
+    .feature-panel {
+      grid-template-columns: 1fr;
+      height: auto;
+      gap: 2rem;
+    }
+    .panels-container {
+      height: auto;
+      min-height: 950px;
+    }
+    .panel-visual {
+      order: -1;
+      height: 380px;
+    }
+    .tabs-nav {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    #hero h1 {
+      font-size: 2.3rem;
+    }
+    .hero-ctas {
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+    }
+    .tabs-nav {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .steps-container {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .connecting-line-svg {
+      display: none;
+    }
+
+    .timeline-line {
+      left: 20px;
+    }
+    .timeline-dot {
+      left: 20px;
+    }
+    .timeline-item {
+      justify-content: flex-end;
+    }
+    .timeline-content {
+      width: calc(100% - 45px);
+    }
+    .timeline-item:nth-child(even) {
+      justify-content: flex-end;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Progress Scrollbar -->
+<div id="progress-bar"></div>
+
+<!-- Cursor trail elements -->
+<div id="custom-cursor"></div>
+<div id="custom-cursor-follower"></div>
+
+<!-- HERO SECTION -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  
+  <div class="hero-wa-float">
+    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.666.988 3.396 1.472 5.35 1.473 5.367 0 9.735-4.336 9.739-9.664.002-2.58-1.002-5.006-2.83-6.838S14.807 1.34 12.226 1.338C6.861 1.338 2.49 5.674 2.486 11c-.001 1.905.497 3.766 1.442 5.396l-.956 3.49 3.675-.964zM17.7 14.1c-.31-.155-1.84-.908-2.12-.99-.29-.105-.49-.155-.7.155-.21.31-.81.99-.99 1.2-.18.205-.36.23-.67.075-.31-.155-1.314-.484-2.5-1.543-.923-.824-1.546-1.843-1.726-2.152-.18-.31-.02-.477.135-.632.14-.14.31-.36.465-.54.155-.18.205-.31.31-.515.105-.205.05-.387-.025-.54-.075-.155-.7-1.687-.96-2.32-.25-.61-.51-.53-.7-.54-.18-.01-.39-.01-.6-.01-.21 0-.54.08-.82.39-.28.31-1.08 1.06-1.08 2.58 0 1.52 1.11 2.99 1.26 3.19.15.21 2.185 3.34 5.295 4.685.74.32 1.317.51 1.77.653.743.236 1.42.203 1.956.123.6-.09 1.84-.75 2.1-1.475.26-.72.26-1.34.18-1.47-.08-.13-.29-.21-.6-.365z"/></svg>
+  </div>
+  
+  <div class="tagline">WapFlow Premium Extension</div>
+  <h1>WhatsApp‑First Retail Business Suite</h1>
+  <p>Eliminate paper billing and friction. Run your store's POS, marketing channels, and stock control straight through customer chats.</p>
+  
+  <div class="hero-ctas">
+    <button class="cta-primary" onclick="document.getElementById('features').scrollIntoView();">Explore Features</button>
+    <button class="cta-secondary" onclick="document.getElementById('how-it-works').scrollIntoView();">See How It Works</button>
+  </div>
+  
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-dot"></div>
+  </div>
+</section>
+
+<!-- PROBLEM TICKER BAR -->
+<section id="problem-bar">
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Paper Billing Chaos
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Zero Customer Profiles
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>Blind Stock Levels
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10 5 5 0 000-10zm0 12c-5 0-9 2-9 6v2h18v-2c0-4-4-6-9-6z"/></svg>Siloed Marketing Channels
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>No Profit Analytics
+      </div>
+      
+      <!-- Duplicate content to loop seamlessly -->
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Paper Billing Chaos
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Zero Customer Profiles
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>Blind Stock Levels
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10 5 5 0 000-10zm0 12c-5 0-9 2-9 6v2h18v-2c0-4-4-6-9-6z"/></svg>Siloed Marketing Channels
+      </div>
+      <div class="ticker-item">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>No Profit Analytics
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features">
+  <div class="section-header">
+    <h2>Powerful Core Extension Features</h2>
+    <p>We've integrated high-octane tools right on top of WapFlow's messaging architecture.</p>
+  </div>
+  
+  <!-- Horizontal Tabs -->
+  <div class="tabs-nav" role="tablist">
+    <button class="tab-btn active" data-target="pos">
+      <svg viewBox="0 0 24 24"><path d="M19 2H5c-1.11 0-2 .9-2 2v16c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 11H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+      <span>POS Billing</span>
+    </button>
+    <button class="tab-btn" data-target="qr">
+      <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-2 2h2v3h-2v-3zm2 3h3v2h-3v-2zm-2 2h2v-2h-2v2zm5-5h2v3h-2v-3z"/></svg>
+      <span>QR Capture</span>
+    </button>
+    <button class="tab-btn" data-target="inventory">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm3 4h12v10H6V7zm2 2v6h8V9H8zm-5 10h18v2H3v-2z"/></svg>
+      <span>Inventory</span>
+    </button>
+    <button class="tab-btn" data-target="omni">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-9 12H4v-2h7v2zm0-4H4V9h7v3zm9 4h-7V9h7v7z"/></svg>
+      <span>Omnichannel</span>
+    </button>
+    <button class="tab-btn" data-target="ai">
+      <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+      <span>AI Analytics</span>
+    </button>
+  </div>
+
+  <!-- Panels wrapper -->
+  <div class="panels-container">
+    
+    <!-- 1. POS Billing Panel -->
+    <div class="feature-panel active" id="panel-pos">
+      <div class="panel-text">
+        <h3>Direct WhatsApp Billing</h3>
+        <p>No paper, no friction. Speed up checking out by simply inputting the customer’s WhatsApp number. A clean PDF receipt is pushed directly to their phone instantly.</p>
+        <ul class="feature-bullets">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Super Fast Cash Register entry</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Environmentally friendly zero-paper billing</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Secures real customer contact data safely</span>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-visual">
+        <div class="phone-frame">
+          <div class="phone-header">
+            <div class="phone-avatar">PB</div>
+            <div class="phone-user-info">
+              <div class="phone-username">Patel Brothers Store</div>
+              <div class="phone-status">Online</div>
+            </div>
+          </div>
+          <div class="phone-messages" id="pos-chat-box">
+            <div class="msg-bubble received">Sending receipt to +91 98765 43210...</div>
+            <div class="msg-bubble bill-bubble">
+              <div class="bill-header">Patel Brothers Store</div>
+              <div class="bill-item"><span>Sona Masoori Rice 25kg</span><span>₹1,450</span></div>
+              <div class="bill-item"><span>Organic Toor Dal 2kg</span><span>₹360</span></div>
+              <div class="bill-item"><span>Priya Mango Pickle</span><span>₹120</span></div>
+              <div class="bill-total"><span>Total</span><span>₹1,930</span></div>
+            </div>
+            <div class="msg-bubble sent">Thank you for shopping! Recieved bill.</div>
+          </div>
+          <div class="pos-input-area">
+            <div class="pos-input-field">Type message...</div>
+            <div class="pos-send-btn">
+              <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. QR Capture Panel -->
+    <div class="feature-panel" id="panel-qr">
+      <div class="panel-text">
+        <h3>In-Store QR Capture</h3>
+        <p>Convert walk-in traffic to digital profiles automatically. When a customer scans your in-store QR code, it opens WhatsApp with a prefilled keyword like "Hi". Once sent, they instantly receive a coupon, opting them into your store marketing database legally.</p>
+        <ul class="feature-bullets">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Generates 1st-party opt-in legally</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>100% automated coupon delivery flow</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Build customer databases without friction</span>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-visual">
+        <div class="qr-scanner-mock">
+          <div class="qr-code-graphic">
+            <div class="qr-laser"></div>
+            <!-- Clean SVG Vector QR code pattern representation -->
+            <svg width="100%" height="100%" viewBox="0 0 100 100" fill="#0D1B2A">
+              <rect width="25" height="25" />
+              <rect x="5" y="5" width="15" height="15" fill="white" />
+              <rect x="9" y="9" width="7" height="7" />
+              
+              <rect x="75" y="0" width="25" height="25" />
+              <rect x="80" y="5" width="15" height="15" fill="white" />
+              <rect x="84" y="9" width="7" height="7" />
+
+              <rect x="0" y="75" width="25" height="25" />
+              <rect x="5" y="80" width="15" height="15" fill="white" />
+              <rect x="9" y="84" width="7" height="7" />
+
+              <rect x="35" y="10" width="10" height="10" />
+              <rect x="55" y="5" width="12" height="8" />
+              <rect x="40" y="45" width="20" height="20" />
+              <rect x="70" y="60" width="15" height="10" />
+              <rect x="85" y="85" width="15" height="15" />
+              <rect x="60" y="80" width="8" height="8" />
+            </svg>
+          </div>
+          <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--accent-teal); font-weight:700;">SCAN FOR 10% OFF</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Stock Inventory Panel -->
+    <div class="feature-panel" id="panel-inventory">
+      <div class="panel-text">
+        <h3>Smart Stock Inventory</h3>
+        <p>Gain absolute control over your storage. Track item batches, automatically flag short expiries, monitor storage utilization dynamically, and use inventory alerts to push marketing campaigns for items that need to clear immediately.</p>
+        <ul class="feature-bullets">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Real-time batch & expiration indicators</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Capacity status visualization</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Connects levels directly to AI Marketing suggestions</span>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-visual">
+        <div class="inventory-card glass-card">
+          <div class="inventory-header">
+            <span class="inventory-title">Active Stock Control</span>
+            <div class="inventory-stats-summary">
+              <span>Items: 482</span>
+              <span>Capacity: 84%</span>
+            </div>
+          </div>
+          
+          <div class="inv-item-row">
+            <div class="inv-item-meta">
+              <span>Sona Masoori Rice (25kg)</span>
+              <span>80 Bags</span>
+            </div>
+            <div class="inv-bar-track">
+              <div class="inv-bar-fill" style="width: 80%;"></div>
+            </div>
+          </div>
+          
+          <div class="inv-item-row">
+            <div class="inv-item-meta">
+              <span>Priya Mango Pickle</span>
+              <span>12 Bottles <span class="inv-badge-warning">EXPIRING IN 12d</span></span>
+            </div>
+            <div class="inv-bar-track">
+              <div class="inv-bar-fill danger" style="width: 15%;"></div>
+            </div>
+          </div>
+
+          <div class="inv-item-row">
+            <div class="inv-item-meta">
+              <span>Organic Toor Dal</span>
+              <span>140 Packs</span>
+            </div>
+            <div class="inv-bar-track">
+              <div class="inv-bar-fill warning" style="width: 58%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Omnichannel Panel -->
+    <div class="feature-panel" id="panel-omni">
+      <div class="panel-text">
+        <h3>1-Click Omnichannel Engine</h3>
+        <p>Broadcast campaigns across all key marketing touchpoints at once. Send offers via Instagram DM, WhatsApp blast, SMS text, Voice broadcast, and email in a single tap, then track exact open and conversion analytics on a unified dashboard.</p>
+        <ul class="feature-bullets">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Simultaneous multi-network blast templates</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Real-time delivery status dashboard tracking</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Automatic opt-out management</span>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-visual">
+        <div class="omni-publisher glass-card">
+          <div class="omni-central-button">PUBLISH</div>
+          <div class="omni-signals">
+            <!-- WA -->
+            <div class="omni-icon-node node-wa active">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.666.988 3.396 1.472 5.35 1.473 5.367 0 9.735-4.336 9.739-9.664.002-2.58-1.002-5.006-2.83-6.838S14.807 1.34 12.226 1.338C6.861 1.338 2.49 5.674 2.486 11c-.001 1.905.497 3.766 1.442 5.396l-.956 3.49 3.675-.964z"/></svg>
+            </div>
+            <!-- Insta -->
+            <div class="omni-icon-node node-ig active">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </div>
+            <!-- SMS -->
+            <div class="omni-icon-node node-sms active">
+              <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+            </div>
+            <!-- Email -->
+            <div class="omni-icon-node node-mail active">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </div>
+            <!-- Voice -->
+            <div class="omni-icon-node node-voice active">
+              <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+          </div>
+          <div class="omni-signal-wave"></div>
+          <div class="omni-signal-wave" style="animation-delay: 0.8s;"></div>
+          <div class="omni-signal-wave" style="animation-delay: 1.6s;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. AI Analytics Panel -->
+    <div class="feature-panel" id="panel-ai">
+      <div class="panel-text">
+        <h3>AI margin & Trend Analysis</h3>
+        <p>Eliminate random discounts. Our predictive algorithms analyze regional demand patterns, local festivals, and inventory expiries to auto-generate high-performance, margin-safe campaign copy and targeted discount recommendations.</p>
+        <ul class="feature-bullets">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Targeted discounts calculated to protect net margin</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Automated festival & region-based stocking recommendations</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>Dynamic typewriter copy simulator</span>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-visual">
+        <div class="ai-analytics-card glass-card">
+          <div class="ai-chart">
+            <div class="ai-chart-bar" id="bar1" style="height: 60%"></div>
+            <div class="ai-chart-bar" id="bar2" style="height: 85%"></div>
+            <div class="ai-chart-bar" id="bar3" style="height: 40%"></div>
+            <div class="ai-chart-bar" id="bar4" style="height: 95%"></div>
+          </div>
+          <div class="ai-recommendation-box">
+            <div id="ai-typewriter-text">> </div>
+          </div>
+          <!-- Festival and Regional stock predictor -->
+          <div class="ai-festival-planner">
+            <label style="font-size: 0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">📅 Select Upcoming Festival</label>
+            <select class="festival-select" id="fest-select">
+              <option value="holi">🎨 Holi (North & West India)</option>
+              <option value="diwali">🪔 Diwali (All India / National)</option>
+              <option value="pongal">🌾 Pongal / Sankranti (South India)</option>
+              <option value="durgapuja">🌺 Durga Puja (East India)</option>
+            </select>
+            
+            <div class="festival-result-panel">
+              <div class="fest-region-row">
+                <span>Target Region:</span>
+                <span class="fest-region-val" id="fest-region">North & West India</span>
+              </div>
+              <div class="fest-region-row">
+                <span>Demand Spike:</span>
+                <span class="fest-region-val" style="color: #ff7675;" id="fest-spike">+145% Sweets & Gulal</span>
+              </div>
+              <div class="fest-materials-title">Extra Stock Required</div>
+              <div class="fest-materials-list" id="fest-materials">
+                <div class="fest-material-item"><span>Organic Holi Gulal (Colors)</span><span class="fest-material-qty">+250 kg</span></div>
+                <div class="fest-material-item"><span>Patel Special Ghee Sweets</span><span class="fest-material-qty">+150 kg</span></div>
+                <div class="fest-material-item"><span>Premium Basmati Rice</span><span class="fest-material-qty">+40 Bags</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS SECTION -->
+<section id="how-it-works">
+  <div class="section-header">
+    <h2>Frictionless Operation Flow</h2>
+    <p>Get up and running within hours. The simplest workflow ever brought to retail stores.</p>
+  </div>
+  
+  <div class="steps-container">
+    <!-- Connecting dashed line -->
+    <svg class="connecting-line-svg">
+      <path d="M 50,5 Q 400,5 900,5" />
+    </svg>
+
+    <div class="step-card">
+      <div class="step-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+      </div>
+      <h3>1. Clerk Enters Number</h3>
+      <p>Simply enter customer phone number in the cloud-connected POS terminal interface.</p>
+    </div>
+    
+    <div class="step-card">
+      <div class="step-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </div>
+      <h3>2. WhatsApp Bill Sent</h3>
+      <p>A beautifully formatted digital PDF receipt is immediately pushed to the customer's chat screen.</p>
+    </div>
+    
+    <div class="step-card">
+      <div class="step-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-3.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V20h6v-3.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      </div>
+      <h3>3. Opted-In to CRM</h3>
+      <p>Customer gets automatically cataloged inside WapFlow CRM system, opening doors for 1-click marketing blasts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OMNI-CHANNEL BLASTER SECTION -->
+<section id="omni-channel-blaster">
+  <div class="omni-blaster-container">
+    <div class="section-header">
+      <h2>1-Click Omni-Channel Broadcast</h2>
+      <p>Compose campaigns once and instantly blast them across all customer networks simultaneously with a single tap.</p>
+    </div>
+    
+    <div class="blaster-dashboard glass-card">
+      <!-- Composer Column -->
+      <div class="blaster-composer">
+        <h3>Campaign Composer</h3>
+        
+        <div class="template-selector">
+          <label>Select Template</label>
+          <div class="template-chips">
+            <span class="temp-chip active" data-text="Festive Sale! Get 20% off on Patel Special sweets this weekend. Valid till Sunday.">🎉 Festive Sale</span>
+            <span class="temp-chip" data-text="Fresh stock of Sona Masoori Rice has arrived. Click to order now on WhatsApp!">🌾 New Arrival</span>
+            <span class="temp-chip" data-text="Flash discount! Clear stock of organic Toor Dal: 15% off for the next 3 hours.">⚡ Flash Deal</span>
+          </div>
+        </div>
+
+        <div class="message-input-wrapper">
+          <label for="campaign-msg">Broadcast Message</label>
+          <textarea id="campaign-msg" readonly>Festive Sale! Get 20% off on Patel Special sweets this weekend. Valid till Sunday.</textarea>
+        </div>
+
+        <button id="btn-broadcast">
+          <svg viewBox="0 0 24 24" class="send-icon"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          <span>1-Click Broadcast</span>
+        </button>
+      </div>
+
+      <!-- Live Broadcast Visualizer -->
+      <div class="blaster-visualizer">
+        <h3>Live Channel Status</h3>
+        
+        <div class="channels-grid">
+          <!-- WhatsApp -->
+          <div class="channel-card wa" id="chan-wa">
+            <div class="channel-header-row">
+              <div class="channel-info">
+                <div class="channel-icon wa-bg">
+                  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.666.988 3.396 1.472 5.35 1.473 5.367 0 9.735-4.336 9.739-9.664.002-2.58-1.002-5.006-2.83-6.838S14.807 1.34 12.226 1.338C6.861 1.338 2.49 5.674 2.486 11c-.001 1.905.497 3.766 1.442 5.396l-.956 3.49 3.675-.964zM17.7 14.1c-.31-.155-1.84-.908-2.12-.99-.29-.105-.49-.155-.7.155-.21.31-.81.99-.99 1.2-.18.205-.36.23-.67.075-.31-.155-1.314-.484-2.5-1.543-.923-.824-1.546-1.843-1.726-2.152-.18-.31-.02-.477.135-.632.14-.14.31-.36.465-.54.155-.18.205-.31.31-.515.105-.205.05-.387-.025-.54-.075-.155-.7-1.687-.96-2.32-.25-.61-.51-.53-.7-.54-.18-.01-.39-.01-.6-.01-.21 0-.54.08-.82.39-.28.31-1.08 1.06-1.08 2.58 0 1.52 1.11 2.99 1.26 3.19.15.21 2.185 3.34 5.295 4.685.74.32 1.317.51 1.77.653.743.236 1.42.203 1.956.123.6-.09 1.84-.75 2.1-1.475.26-.72.26-1.34.18-1.47-.08-.13-.29-.21-.6-.365z"/></svg>
+                </div>
+                <div>
+                  <h4>WhatsApp</h4>
+                  <p class="chan-status">Ready to send</p>
+                </div>
+              </div>
+              <div class="status-indicator"></div>
+            </div>
+            <div class="channel-preview">
+              <div class="preview-bubble received">
+                <span class="preview-text">Festive Sale! Get 20% off...</span>
+                <span class="preview-meta">12:00 PM <span class="wa-ticks">✓✓</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SMS -->
+          <div class="channel-card sms" id="chan-sms">
+            <div class="channel-header-row">
+              <div class="channel-info">
+                <div class="channel-icon sms-bg">
+                  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+                </div>
+                <div>
+                  <h4>SMS Blast</h4>
+                  <p class="chan-status">Ready to send</p>
+                </div>
+              </div>
+              <div class="status-indicator"></div>
+            </div>
+            <div class="channel-preview">
+              <div class="preview-bubble received">
+                <span class="preview-text">Festive Sale! Get 20% off...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Instagram -->
+          <div class="channel-card insta" id="chan-insta">
+            <div class="channel-header-row">
+              <div class="channel-info">
+                <div class="channel-icon insta-bg">
+                  <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </div>
+                <div>
+                  <h4>Instagram DM</h4>
+                  <p class="chan-status">Ready to send</p>
+                </div>
+              </div>
+              <div class="status-indicator"></div>
+            </div>
+            <div class="channel-preview">
+              <div class="preview-bubble received">
+                <span class="preview-text">Festive Sale! Get 20% off...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Voice Agent -->
+          <div class="channel-card voice" id="chan-voice">
+            <div class="channel-header-row">
+              <div class="channel-info">
+                <div class="channel-icon voice-bg">
+                  <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <div>
+                  <h4>Voice Agent</h4>
+                  <p class="chan-status">Ready to call</p>
+                </div>
+              </div>
+              <div class="status-indicator"></div>
+            </div>
+            <div class="channel-preview">
+              <div class="voice-wave-container">
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+                <span class="wave-bar"></span>
+              </div>
+              <p class="voice-transcript">Synthesizing audio speech...</p>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="channel-card email" id="chan-email">
+            <div class="channel-header-row">
+              <div class="channel-info">
+                <div class="channel-icon email-bg">
+                  <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-.4 4.25l-7.07 4.42c-.32.2-.74.2-1.06 0L4.4 8.25c-.25-.16-.4-.43-.4-.72 0-.67.73-1.07 1.3-.72L12 11.2l6.7-4.18c.57-.35 1.3.05 1.3.72 0 .29-.15.56-.4.72z"/></svg>
+                </div>
+                <div>
+                  <h4>Email Broadcast</h4>
+                  <p class="chan-status">Ready to send</p>
+                </div>
+              </div>
+              <div class="status-indicator"></div>
+            </div>
+            <div class="channel-preview">
+              <div class="preview-bubble received" style="border-left: 3px solid var(--accent-teal);">
+                <span class="preview-text">Festive Sale! Get 20% off...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sending/Success Screen Overlay -->
+        <div class="visualizer-overlay" id="blaster-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP SECTION -->
+<section id="roadmap">
+  <div class="section-header">
+    <h2>Development Roadmap</h2>
+    <p>Our systematic rollout strategy bringing intelligence to high-street retail operations.</p>
+  </div>
+  
+  <div class="timeline-wrapper">
+    <div class="timeline-line"></div>
+    
+    <div class="timeline-item active">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content glass-card">
+        <div class="timeline-phase">Phase 1</div>
+        <h3>Core WhatsApp Integration</h3>
+        <p>POS engine launch, instant WhatsApp receipt dispatch system, and automated digital ledger capture.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content glass-card">
+        <div class="timeline-phase">Phase 2</div>
+        <h3>QR Customer Opt-in Acquisition</h3>
+        <p>Deploying smart QR code posters in physical retail locations to automatically capture opt-ins and distribute coupon codes.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content glass-card">
+        <div class="timeline-phase">Phase 3</div>
+        <h3>Predictive Stock & AI Engine</h3>
+        <p>Release batch tracking, regional demand calendars, and margin-maximizing automated campaign suggestions.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content glass-card">
+        <div class="timeline-phase">Phase 4</div>
+        <h3>Unified Omnichannel Blaster</h3>
+        <p>1-click multi-channel publishing to Instagram DM, Voice call broadcasts, Email, and SMS with real-time conversion dashboards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Patel<span>Brothers</span></div>
+  <div class="footer-tagline">A Premium Retail Extension for the WapFlow Ecosystem.</div>
+  <div class="footer-copyright">&copy; 2026 Patel Brothers Suite. Built for modern retail commerce.</div>
+</footer>
+
+<script>
+  /* ======================
+     Custom Trailing Cursor
+  ======================= */
+  const cursorDot = document.getElementById('custom-cursor');
+  const cursorFollower = document.getElementById('custom-cursor-follower');
+  
+  let mouseX = 0;
+  let mouseY = 0;
+  let followerX = 0;
+  let followerY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  });
+
+  // Smooth lerp animation loop for trailing circle
+  function animateFollower() {
+    followerX += (mouseX - followerX) * 0.15;
+    followerY += (mouseY - followerY) * 0.15;
+    cursorFollower.style.left = followerX + 'px';
+    cursorFollower.style.top = followerY + 'px';
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
+
+  // Resize trail cursor on hoverable elements
+  const hoverables = document.querySelectorAll('button, .tab-btn, a, .glass-card');
+  hoverables.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      cursorFollower.style.width = '42px';
+      cursorFollower.style.height = '42px';
+      cursorFollower.style.borderColor = 'var(--accent-teal)';
+      cursorFollower.style.backgroundColor = 'rgba(0, 184, 148, 0.08)';
+    });
+    item.addEventListener('mouseleave', () => {
+      cursorFollower.style.width = '28px';
+      cursorFollower.style.height = '28px';
+      cursorFollower.style.borderColor = 'var(--whatsapp-green)';
+      cursorFollower.style.backgroundColor = 'rgba(37, 211, 102, 0.03)';
+    });
+  });
+
+  /* ======================
+     Scroll Progress Indicator
+  ======================= */
+  window.addEventListener('scroll', () => {
+    const windowScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (windowScroll / height) * 100;
+    document.getElementById('progress-bar').style.width = scrolled + '%';
+  });
+
+  /* ======================
+     Interactive Features Tabs
+  ======================= */
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.feature-panel');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active classes
+      tabButtons.forEach(b => b.classList.remove('active'));
+      
+      const activePanel = document.querySelector('.feature-panel.active');
+      const targetId = 'panel-' + btn.getAttribute('data-target');
+      const nextPanel = document.getElementById(targetId);
+
+      if (activePanel && activePanel.id !== targetId) {
+        btn.classList.add('active');
+        
+        // Outgoing animation: exit left
+        activePanel.classList.add('exit-left');
+        activePanel.classList.remove('active');
+        
+        setTimeout(() => {
+          activePanel.classList.remove('exit-left');
+          nextPanel.classList.add('active');
+          
+          // Re-trigger typewriter text if target is AI panel
+          if (btn.getAttribute('data-target') === 'ai') {
+            triggerAITypewriter();
+          }
+        }, 300);
+      }
+    });
+  });
+
+  /* ======================
+     AI Typewriter & Festival Planner Implementation
+  ======================= */
+  const typewriterText = document.getElementById('ai-typewriter-text');
+  let hasTyped = false;
+
+  function triggerAITypewriter(msg) {
+    const textToType = msg || "Recommended campaign: Run 12% OFF on Priya Mango Pickle to clear stock before 12 days expiration limit -> projected net profit margin: 18.4% (₹18,400 target profit generated).";
+    typewriterText.textContent = "> ";
+    let typeIndex = 0;
+    
+    function typeNextChar() {
+      if (typeIndex < textToType.length) {
+        typewriterText.textContent += textToType.charAt(typeIndex);
+        typeIndex++;
+        setTimeout(typeNextChar, 25);
+      }
+    }
+    typeNextChar();
+  }
+
+  // Trigger once on panel intersection
+  const aiPanelElement = document.getElementById('panel-ai');
+  const aiObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !hasTyped) {
+        triggerAITypewriter();
+        hasTyped = true;
+      }
+    });
+  }, { threshold: 0.3 });
+  aiObserver.observe(aiPanelElement);
+
+  /* ======================
+     AI Festival Stock Planner Controller
+  ======================= */
+  const festSelect = document.getElementById('fest-select');
+  const festRegion = document.getElementById('fest-region');
+  const festSpike = document.getElementById('fest-spike');
+  const festMaterials = document.getElementById('fest-materials');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+  const bar4 = document.getElementById('bar4');
+  
+  const festivalData = {
+    holi: {
+      region: "North & West India",
+      spike: "+145% Sweets & Gulal",
+      bars: [85, 95, 45, 70],
+      materials: [
+        { name: "Organic Holi Gulal (Colors)", qty: "+250 kg" },
+        { name: "Patel Special Ghee Sweets", qty: "+150 kg" },
+        { name: "Premium Basmati Rice", qty: "+40 Bags" }
+      ],
+      aiText: "Recommended campaign: Run 15% OFF on organic Holi Gulal for family orders -> projected profit spike: +35% (₹24,500 target profit)."
+    },
+    diwali: {
+      region: "All India / National",
+      spike: "+280% Dry Fruits & Lamps",
+      bars: [95, 98, 90, 85],
+      materials: [
+        { name: "Premium Dry Fruit Gift Boxes", qty: "+500 Units" },
+        { name: "Clay Diyas & Brass Lamps", qty: "+1000 Pcs" },
+        { name: "Ghee & Cardamom Powders", qty: "+300 kg" }
+      ],
+      aiText: "Recommended campaign: Launch 1-click WhatsApp catalog for Diwali Gift Hampers -> projected margin boost: 22% (₹85,000 target profit)."
+    },
+    pongal: {
+      region: "South India (TN/AP/KA)",
+      spike: "+160% Jaggery & Rice",
+      bars: [60, 75, 95, 50],
+      materials: [
+        { name: "Premium Raw Ponni Rice", qty: "+120 Bags" },
+        { name: "Organic Liquid Jaggery", qty: "+200 kg" },
+        { name: "Fresh Cashews & Raisins", qty: "+80 kg" }
+      ],
+      aiText: "Recommended campaign: Target South Indian regional customer profiles with Pongal Pot Combos -> projected sales: +40% (₹18,000 profit)."
+    },
+    durgapuja: {
+      region: "East India (Bengal/Odisha)",
+      spike: "+210% Mustard Oil & Spices",
+      bars: [70, 80, 60, 95],
+      materials: [
+        { name: "Kachi Ghani Mustard Oil", qty: "+350 Liters" },
+        { name: "Premium Gobindobhog Rice", qty: "+80 Bags" },
+        { name: "Special Puja Incense & Spices", qty: "+150 kg" }
+      ],
+      aiText: "Recommended campaign: Send automated email & Instagram DM discount codes on Gobindobhog Rice -> projected conversion: 14.5% (₹32,000 profit)."
+    }
+  };
+
+  festSelect.addEventListener('change', (e) => {
+    const data = festivalData[e.target.value];
+    if (!data) return;
+    
+    // Update fields
+    festRegion.textContent = data.region;
+    festSpike.textContent = data.spike;
+    
+    // Update materials list
+    festMaterials.innerHTML = data.materials.map(item => `
+      <div class="fest-material-item">
+        <span>${item.name}</span>
+        <span class="fest-material-qty">${item.qty}</span>
+      </div>
+    `).join('');
+    
+    // Animate Chart Bars
+    bar1.style.height = data.bars[0] + '%';
+    bar2.style.height = data.bars[1] + '%';
+    bar3.style.height = data.bars[2] + '%';
+    bar4.style.height = data.bars[3] + '%';
+    
+    // Re-trigger typewriter text
+    triggerAITypewriter(data.aiText);
+  });
+
+  /* ======================
+     1-Click Omni-Channel Broadcast System
+  ======================= */
+  const tempChips = document.querySelectorAll('.temp-chip');
+  const campaignMsg = document.getElementById('campaign-msg');
+  const btnBroadcast = document.getElementById('btn-broadcast');
+  const blasterOverlay = document.getElementById('blaster-overlay');
+  
+  // Elements inside channel previews
+  const waPreviewText = document.querySelector('#chan-wa .preview-text');
+  const smsPreviewText = document.querySelector('#chan-sms .preview-text');
+  const instaPreviewText = document.querySelector('#chan-insta .preview-text');
+  const emailPreviewText = document.querySelector('#chan-email .preview-text');
+  const voiceTranscript = document.querySelector('#chan-voice .voice-transcript');
+
+  // Handle Chip Clicks
+  tempChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      tempChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const text = chip.getAttribute('data-text');
+      campaignMsg.value = text;
+      updatePreviews(text);
+    });
+  });
+
+  function updatePreviews(text) {
+    waPreviewText.textContent = text.length > 30 ? text.substring(0, 27) + '...' : text;
+    smsPreviewText.textContent = text.length > 30 ? text.substring(0, 27) + '...' : text;
+    instaPreviewText.textContent = text.length > 30 ? text.substring(0, 27) + '...' : text;
+    emailPreviewText.textContent = text.length > 30 ? text.substring(0, 27) + '...' : text;
+  }
+
+  // Handle Send Broadcast
+  btnBroadcast.addEventListener('click', () => {
+    // Show overlay with sending state
+    blasterOverlay.innerHTML = `
+      <div class="overlay-content">
+        <div class="spinner"></div>
+        <h3 id="overlay-msg">Broadcasting campaign to 12,450 customers...</h3>
+        <div class="stats-counter-bar">
+          <div class="stat-counter">
+            <span class="sc-num" id="sc-wa">0%</span>
+            <span class="sc-label">WhatsApp</span>
+          </div>
+          <div class="stat-counter">
+            <span class="sc-num" id="sc-sms">0%</span>
+            <span class="sc-label">SMS</span>
+          </div>
+          <div class="stat-counter">
+            <span class="sc-num" id="sc-insta">0%</span>
+            <span class="sc-label">Instagram</span>
+          </div>
+          <div class="stat-counter">
+            <span class="sc-num" id="sc-email">0%</span>
+            <span class="sc-label">Email</span>
+          </div>
+          <div class="stat-counter">
+            <span class="sc-num" id="sc-voice">0%</span>
+            <span class="sc-label">Voice Agent</span>
+          </div>
+        </div>
+      </div>
+    `;
+    blasterOverlay.classList.add('active');
+
+    // Run cascade sending animation to channels
+    const channels = ['wa', 'sms', 'insta', 'email', 'voice'];
+    channels.forEach(ch => {
+      const card = document.getElementById('chan-' + ch);
+      card.classList.remove('success');
+      card.classList.add('sending');
+      const statusText = card.querySelector('.chan-status');
+      if (ch === 'voice') {
+        statusText.textContent = 'Dialing...';
+        voiceTranscript.textContent = '"Calling customer..."';
+      } else {
+        statusText.textContent = 'Sending...';
+      }
+    });
+
+    // Simulate progress increment
+    let progressWa = 0;
+    let progressSms = 0;
+    let progressInsta = 0;
+    let progressEmail = 0;
+    let progressVoice = 0;
+
+    const interval = setInterval(() => {
+      let allDone = true;
+
+      if (progressWa < 100) {
+        progressWa += Math.floor(Math.random() * 15) + 8;
+        if (progressWa >= 100) {
+          progressWa = 100;
+          completeChannel('wa', 'Delivered');
+        }
+        document.getElementById('sc-wa').textContent = progressWa + '%';
+        allDone = false;
+      }
+
+      if (progressWa > 20 && progressSms < 100) {
+        progressSms += Math.floor(Math.random() * 18) + 10;
+        if (progressSms >= 100) {
+          progressSms = 100;
+          completeChannel('sms', 'Sent');
+        }
+        document.getElementById('sc-sms').textContent = progressSms + '%';
+        allDone = false;
+      }
+
+      if (progressSms > 20 && progressInsta < 100) {
+        progressInsta += Math.floor(Math.random() * 20) + 12;
+        if (progressInsta >= 100) {
+          progressInsta = 100;
+          completeChannel('insta', 'Delivered');
+        }
+        document.getElementById('sc-insta').textContent = progressInsta + '%';
+        allDone = false;
+      }
+
+      if (progressInsta > 20 && progressEmail < 100) {
+        progressEmail += Math.floor(Math.random() * 22) + 11;
+        if (progressEmail >= 100) {
+          progressEmail = 100;
+          completeChannel('email', 'Sent');
+        }
+        document.getElementById('sc-email').textContent = progressEmail + '%';
+        allDone = false;
+      }
+
+      if (progressEmail > 20 && progressVoice < 100) {
+        progressVoice += Math.floor(Math.random() * 12) + 6;
+        if (progressVoice >= 100) {
+          progressVoice = 100;
+          completeChannel('voice', 'Completed');
+          voiceTranscript.textContent = '"Greeting customer: Hi, this is Patel Brothers... (Exclusive offer delivered)"';
+        } else if (progressVoice > 30 && progressVoice < 70) {
+          voiceTranscript.textContent = '"Synthesizing customized greeting speech..."';
+        } else if (progressVoice >= 70) {
+          voiceTranscript.textContent = '"Speaking voice broadcast sequence..."';
+        }
+        document.getElementById('sc-voice').textContent = progressVoice + '%';
+        allDone = false;
+      }
+
+      if (allDone) {
+        clearInterval(interval);
+        setTimeout(showBroadcastSuccess, 1000);
+      }
+    }, 150);
+  });
+
+  function completeChannel(ch, successWord) {
+    const card = document.getElementById('chan-' + ch);
+    card.classList.remove('sending');
+    card.classList.add('success');
+    card.querySelector('.chan-status').textContent = successWord + ' ✓';
+  }
+
+  function showBroadcastSuccess() {
+    blasterOverlay.innerHTML = `
+      <div class="broadcast-success-screen">
+        <div class="success-circle">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </div>
+        <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Broadcast Blasted Successfully!</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Target: 12,450 customer profiles. Live conversion analytics breakdown:</p>
+        
+        <div class="analytics-report-list">
+          
+          <!-- WhatsApp Stats -->
+          <div class="channel-metric-row">
+            <div class="metric-row-header">
+              <span class="m-channel-title"><span class="m-dot wa-bg" style="background: var(--whatsapp-green);"></span>WhatsApp</span>
+              <span class="m-delivered-lbl">98% Delivered</span>
+            </div>
+            <div class="metric-segments-bar">
+              <div class="segment clicked" style="width: 58%; background: var(--whatsapp-green);" title="Clicked / Responded"></div>
+              <div class="segment seen" style="width: 36%; background: #34b7f1;" title="Seen"></div>
+              <div class="segment unread" style="width: 6%; background: #2d3748;" title="Unread"></div>
+            </div>
+            <div class="metric-legends">
+              <span><span class="l-dot" style="background: var(--whatsapp-green);"></span>58% Clicked</span>
+              <span><span class="l-dot" style="background: #34b7f1;"></span>36% Seen</span>
+              <span><span class="l-dot" style="background: #2d3748;"></span>6% Unread</span>
+            </div>
+          </div>
+
+          <!-- SMS Stats -->
+          <div class="channel-metric-row">
+            <div class="metric-row-header">
+              <span class="m-channel-title"><span class="m-dot sms-bg" style="background: var(--accent-teal);"></span>SMS Blast</span>
+              <span class="m-delivered-lbl">94% Sent</span>
+            </div>
+            <div class="metric-segments-bar">
+              <div class="segment clicked" style="width: 18%; background: var(--whatsapp-green);"></div>
+              <div class="segment seen" style="width: 76%; background: #34b7f1;"></div>
+              <div class="segment unread" style="width: 6%; background: #e17055;"></div>
+            </div>
+            <div class="metric-legends">
+              <span><span class="l-dot" style="background: var(--whatsapp-green);"></span>18% Clicked</span>
+              <span><span class="l-dot" style="background: #34b7f1;"></span>76% Opened</span>
+              <span><span class="l-dot" style="background: #e17055;"></span>6% Failed</span>
+            </div>
+          </div>
+
+          <!-- Instagram Stats -->
+          <div class="channel-metric-row">
+            <div class="metric-row-header">
+              <span class="m-channel-title"><span class="m-dot" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); width: 8px; height: 8px; border-radius: 50%;"></span>Instagram DM</span>
+              <span class="m-delivered-lbl">91% Delivered</span>
+            </div>
+            <div class="metric-segments-bar">
+              <div class="segment clicked" style="width: 44%; background: var(--whatsapp-green);"></div>
+              <div class="segment seen" style="width: 47%; background: #34b7f1;"></div>
+              <div class="segment unread" style="width: 9%; background: #2d3748;"></div>
+            </div>
+            <div class="metric-legends">
+              <span><span class="l-dot" style="background: var(--whatsapp-green);"></span>44% Clicked</span>
+              <span><span class="l-dot" style="background: #34b7f1;"></span>47% Opened</span>
+              <span><span class="l-dot" style="background: #2d3748;"></span>9% Unread</span>
+            </div>
+          </div>
+
+          <!-- Email Stats -->
+          <div class="channel-metric-row">
+            <div class="metric-row-header">
+              <span class="m-channel-title"><span class="m-dot email-bg" style="background: #ea4335;"></span>Email</span>
+              <span class="m-delivered-lbl">99% Delivered</span>
+            </div>
+            <div class="metric-segments-bar">
+              <div class="segment clicked" style="width: 15%; background: var(--whatsapp-green);"></div>
+              <div class="segment seen" style="width: 27%; background: #34b7f1;"></div>
+              <div class="segment unread" style="width: 58%; background: #2d3748;"></div>
+            </div>
+            <div class="metric-legends">
+              <span><span class="l-dot" style="background: var(--whatsapp-green);"></span>15% Clicked</span>
+              <span><span class="l-dot" style="background: #34b7f1;"></span>27% Opened</span>
+              <span><span class="l-dot" style="background: #2d3748;"></span>58% Unread</span>
+            </div>
+          </div>
+
+          <!-- Voice Agent Stats -->
+          <div class="channel-metric-row">
+            <div class="metric-row-header">
+              <span class="m-channel-title"><span class="m-dot voice-bg" style="background: #0984e3;"></span>Voice Agent</span>
+              <span class="m-delivered-lbl">82% Connected</span>
+            </div>
+            <div class="metric-segments-bar">
+              <div class="segment clicked" style="width: 54%; background: var(--whatsapp-green);" title="Listened >30s"></div>
+              <div class="segment seen" style="width: 28%; background: #34b7f1;" title="Listened <30s"></div>
+              <div class="segment unread" style="width: 18%; background: #e17055;" title="No Answer"></div>
+            </div>
+            <div class="metric-legends">
+              <span><span class="l-dot" style="background: var(--whatsapp-green);"></span>54% Listened >30s</span>
+              <span><span class="l-dot" style="background: #34b7f1;"></span>28% Hung Up Early</span>
+              <span><span class="l-dot" style="background: #e17055;"></span>18% No Answer</span>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="btn-reset" id="btn-reset-blaster" style="margin-top: 1.5rem;">Compose New Broadcast</button>
+      </div>
+    `;
+    
+    document.getElementById('btn-reset-blaster').addEventListener('click', () => {
+      blasterOverlay.classList.remove('active');
+      const channels = ['wa', 'sms', 'insta', 'email', 'voice'];
+      channels.forEach(ch => {
+        const card = document.getElementById('chan-' + ch);
+        card.classList.remove('success', 'sending');
+        card.querySelector('.chan-status').textContent = ch === 'voice' ? 'Ready to call' : 'Ready to send';
+      });
+      voiceTranscript.textContent = 'Synthesizing audio speech...';
+    });
+  }
+
+  /* ======================
+     Roadmap Staggered Reveal
+  ======================= */
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  const roadmapObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('active');
+        }, idx * 150); // Staggered delay effect
+        roadmapObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  timelineItems.forEach(item => {
+    roadmapObserver.observe(item);
+  });
+</script>
+</body>
+</html>
